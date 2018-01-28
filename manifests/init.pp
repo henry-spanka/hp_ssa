@@ -44,6 +44,7 @@
 #
 class hp_ssa (
     String $mcp_version = 'current',
+    Boolean $install_ams = false,
 ) {
     case $::operatingsystem {
         'CentOS': {
@@ -64,6 +65,12 @@ class hp_ssa (
             package { 'ssacli':
                 ensure  => 'installed',
                 require => Yumrepo['HP-mcp'],
+            }
+
+            if ($install_ams) {
+                package { 'hp-ams':
+                    ensure => 'installed',
+                }
             }
         }
         default: {
